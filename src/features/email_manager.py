@@ -1,221 +1,308 @@
 """
-AI-driven email management feature for Astra
+Astra AI Assistant - Email Manager Feature Module
+COPYRIGHT © 2024 Astra Technologies. ALL RIGHTS RESERVED.
 """
-from typing import Dict, List, Optional
+
+import logging
 import json
-import os
-import email
-import imaplib
 import smtplib
+import imaplib
+import email
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from pathlib import Path
+from typing import Dict, Any, List, Optional, Tuple
+from datetime import datetime
+import aiofiles
+from src.config import Config
 
-from src.ai.deepseek_client import DeepSeekClient
+logger = logging.getLogger(__name__)
 
 class EmailManager:
-    def __init__(self):
-        self.client = DeepSeekClient()
-        self.config_dir = os.path.join(os.path.dirname(__file__), '../../config')
-        self.credentials = self._load_credentials()
+    """Handles email operations."""
+    
+    def __init__(self, config: Config):
+        """Initialize email manager."""
+        self.config = config
+        self.email_dir = Path(config.DATA_DIR) / 'email'
+        self.email_dir.mkdir(parents=True, exist_ok=True)
+        self.cache_file = self.email_dir / 'email_cache.json'
+        self.cache: Dict[str, Any] = {'sent': [], 'received': []}
+        self._load_cache()
         
-    def _load_credentials(self) -> Dict:
-        """Load email credentials from config"""
-        config_path = os.path.join(self.config_dir, 'email_config.json')
+        # Email server settings
+        self.smtp_settings: Dict[str, Any] = {}
+        self.imap_settings: Dict[str, Any] = {}
+    
+    def _load_cache(self):
+        """Load email cache from file."""
         try:
-            with open(config_path, 'r') as f:
-                return json.load(f)
-        except:
-            return {}
-            
-    async def summarize_emails(self, emails: List[Dict]) -> List[Dict]:
-        """Summarize a list of emails using AI"""
-        summaries = []
-        for email_data in emails:
-            prompt = f"""Summarize the following email:
-
-From: {email_data.get('from', 'Unknown')}
-Subject: {email_data.get('subject', 'No Subject')}
-Content:
-{email_data.get('body', '')}
-
-Provide:
-1. Key points
-2. Action items (if any)
-3. Priority level
-4. Required response (if any)
-
-Format as JSON with these sections."""
-
-            response = await self.client.generate_response(prompt)
-            try:
-                summary = json.loads(response)
-                summary.update({
-                    'email_id': email_data.get('id'),
-                    'from': email_data.get('from'),
-                    'subject': email_data.get('subject')
-                })
-                summaries.append(summary)
-            except:
-                summaries.append({
-                    "error": "Failed to summarize email",
-                    "email_id": email_data.get('id')
-                })
-                
-        return summaries
-
-    async def generate_email_response(self, email_data: Dict) -> str:
-        """Generate an AI-powered email response"""
-        prompt = f"""Generate a professional email response to the following email:
-
-From: {email_data.get('from', 'Unknown')}
-Subject: {email_data.get('subject', 'No Subject')}
-Content:
-{email_data.get('body', '')}
-
-Requirements:
-1. Maintain professional tone
-2. Address all points in the original email
-3. Be concise but thorough
-4. Include appropriate greeting and closing
-
-Generate the complete response."""
-
-        response = await self.client.generate_response(prompt)
-        return response.strip()
-
-    async def prioritize_emails(self, emails: List[Dict]) -> List[Dict]:
-        """Prioritize emails using AI analysis"""
-        prompt = f"""Analyze and prioritize the following emails:
-
-{json.dumps(emails, indent=2)}
-
-For each email, determine:
-1. Priority level (High/Medium/Low)
-2. Response urgency
-3. Category (e.g., Action Required, FYI, Follow-up)
-4. Suggested handling
-
-Format as JSON array with these attributes."""
-
-        response = await self.client.generate_response(prompt)
-        try:
-            return json.loads(response)
-        except:
-            return [{"error": "Failed to prioritize emails"}]
-
-    def connect_imap(self, email: str, password: str) -> Optional[imaplib.IMAP4_SSL]:
-        """Connect to IMAP server"""
-        # This is a simplified example - would need proper server detection
-        try:
-            mail = imaplib.IMAP4_SSL("imap.gmail.com")
-            mail.login(email, password)
-            return mail
+            if self.cache_file.exists():
+                with open(self.cache_file, 'r') as f:
+                    self.cache = json.load(f)
+                logger.info(f"Loaded {len(self.cache['sent'])} sent and {len(self.cache['received'])} received emails")
         except Exception as e:
-            print(f"Failed to connect to IMAP: {e}")
-            return None
-
-    def send_email(self, to: str, subject: str, body: str) -> bool:
-        """Send an email using SMTP"""
-        if not self.credentials:
-            return False
-            
+            logger.error(f"Error loading email cache: {str(e)}")
+    
+    def _save_cache(self):
+        """Save email cache to file."""
         try:
-            msg = MIMEMultipart()
-            msg['From'] = self.credentials.get('email')
+            with open(self.cache_file, 'w') as f:
+                json.dump(self.cache, f, indent=2)
+        except Exception as e:
+            logger.error(f"Error saving email cache: {str(e)}")
+    
+    def configure_smtp(self, settings: Dict[str, Any]) -> bool:
+        """Configure SMTP settings."""
+        required = {'server', 'port', 'username', 'password', 'use_tls'}
+        if not all(field in settings for field in required):
+            return False
+        
+        self.smtp_settings = settings.copy()
+        return True
+    
+    def configure_imap(self, settings: Dict[str, Any]) -> bool:
+        """Configure IMAP settings."""
+        required = {'server', 'port', 'username', 'password', 'use_ssl'}
+        if not all(field in settings for field in required):
+            return False
+        
+        self.imap_settings = settings.copy()
+        return True
+    
+    async def send_email(self, to: str, subject: str, body: str, html: bool = False) -> bool:
+        """Send an email."""
+        try:
+            if not self.smtp_settings:
+                raise ValueError("SMTP not configured")
+            
+            # Create message
+            msg = MIMEMultipart('alternative')
+            msg['From'] = self.smtp_settings['username']
             msg['To'] = to
             msg['Subject'] = subject
-            msg.attach(MIMEText(body, 'plain'))
-
-            server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-            server.login(self.credentials.get('email'), self.credentials.get('password'))
-            server.send_message(msg)
-            server.quit()
+            
+            # Add body
+            content_type = 'html' if html else 'plain'
+            msg.attach(MIMEText(body, content_type))
+            
+            # Connect to SMTP server
+            smtp = smtplib.SMTP(self.smtp_settings['server'], self.smtp_settings['port'])
+            if self.smtp_settings['use_tls']:
+                smtp.starttls()
+            smtp.login(self.smtp_settings['username'], self.smtp_settings['password'])
+            
+            # Send email
+            smtp.send_message(msg)
+            smtp.quit()
+            
+            # Cache sent email
+            sent_email = {
+                'to': to,
+                'subject': subject,
+                'timestamp': datetime.now().isoformat(),
+                'success': True
+            }
+            self.cache['sent'].append(sent_email)
+            self._save_cache()
+            
             return True
+            
         except Exception as e:
-            print(f"Failed to send email: {e}")
+            logger.error(f"Error sending email: {str(e)}")
+            
+            # Cache failed attempt
+            if self.smtp_settings:
+                sent_email = {
+                    'to': to,
+                    'subject': subject,
+                    'timestamp': datetime.now().isoformat(),
+                    'success': False,
+                    'error': str(e)
+                }
+                self.cache['sent'].append(sent_email)
+                self._save_cache()
+            
             return False
+    
+    async def check_email(self, folder: str = 'INBOX', limit: int = 10) -> List[Dict[str, Any]]:
+        """Check emails in specified folder."""
+        try:
+            if not self.imap_settings:
+                raise ValueError("IMAP not configured")
+            
+            # Connect to IMAP server
+            if self.imap_settings['use_ssl']:
+                imap = imaplib.IMAP4_SSL(self.imap_settings['server'], self.imap_settings['port'])
+            else:
+                imap = imaplib.IMAP4(self.imap_settings['server'], self.imap_settings['port'])
+            
+            imap.login(self.imap_settings['username'], self.imap_settings['password'])
+            imap.select(folder)
+            
+            # Search for emails
+            _, message_numbers = imap.search(None, 'ALL')
+            email_list = []
+            
+            # Get the last 'limit' emails
+            for num in message_numbers[0].split()[-limit:]:
+                _, msg_data = imap.fetch(num, '(RFC822)')
+                email_body = msg_data[0][1]
+                message = email.message_from_bytes(email_body)
+                
+                # Extract email data
+                email_data = {
+                    'id': num.decode(),
+                    'from': message['from'],
+                    'to': message['to'],
+                    'subject': message['subject'],
+                    'date': message['date'],
+                    'body': '',
+                    'html': False
+                }
+                
+                # Get email body
+                if message.is_multipart():
+                    for part in message.walk():
+                        if part.get_content_type() == "text/plain":
+                            email_data['body'] = part.get_payload(decode=True).decode()
+                        elif part.get_content_type() == "text/html":
+                            email_data['body'] = part.get_payload(decode=True).decode()
+                            email_data['html'] = True
+                else:
+                    email_data['body'] = message.get_payload(decode=True).decode()
+                
+                email_list.append(email_data)
+            
+            imap.close()
+            imap.logout()
+            
+            # Cache received emails
+            self.cache['received'].extend(email_list)
+            self._save_cache()
+            
+            return email_list
+            
+        except Exception as e:
+            logger.error(f"Error checking email: {str(e)}")
+            return []
+    
+    def get_email_history(self, sent: bool = True, limit: int = 10) -> List[Dict[str, Any]]:
+        """Get email history from cache."""
+        try:
+            history = self.cache['sent' if sent else 'received']
+            return sorted(
+                history,
+                key=lambda x: x['timestamp'] if sent else x['date'],
+                reverse=True
+            )[:limit]
+        except Exception as e:
+            logger.error(f"Error getting email history: {str(e)}")
+            return []
 
 class EmailManagerFeature:
-    def __init__(self):
-        self.manager = EmailManager()
+    """Email manager feature for Astra."""
+    
+    def __init__(self, config: Config):
+        """Initialize the email manager feature."""
+        self.config = config
+        self.manager = EmailManager(config)
+    
+    def _format_email(self, email_data: Dict[str, Any], sent: bool = False) -> str:
+        """Format email for display."""
+        if sent:
+            return (
+                f"To: {email_data['to']}\n"
+                f"Subject: {email_data['subject']}\n"
+                f"Sent: {email_data['timestamp']}\n"
+                f"Status: {'✓' if email_data['success'] else '✗'}"
+            )
+        else:
+            return (
+                f"From: {email_data['from']}\n"
+                f"Subject: {email_data['subject']}\n"
+                f"Date: {email_data['date']}\n"
+                f"\n{email_data['body'][:500]}..."
+                if len(email_data['body']) > 500
+                else f"\n{email_data['body']}"
+            )
+    
+    def _format_email_list(self, emails: List[Dict[str, Any]], sent: bool = False) -> str:
+        """Format email list for display."""
+        if not emails:
+            return "No emails found."
         
-    async def process_command(self, command: str) -> str:
-        """Process email management related commands"""
-        if "summarize emails" in command.lower():
-            # This is a simplified example - would need actual email fetching
-            emails = [
-                {
-                    "id": "1",
-                    "from": "example@example.com",
-                    "subject": "Meeting Tomorrow",
-                    "body": "Can we meet tomorrow at 2 PM to discuss the project?"
-                }
-            ]
-            summaries = await self.manager.summarize_emails(emails)
-            return self._format_email_summaries(summaries)
+        response = "Email history:\n\n"
+        for email_data in emails:
+            response += self._format_email(email_data, sent) + "\n\n"
+        return response
+    
+    async def handle(self, intent: Dict[str, Any]) -> str:
+        """Handle email-related intents."""
+        try:
+            action = intent.get('action', '')
+            params = intent.get('parameters', {})
             
-        elif "generate response" in command.lower():
-            # Extract email details from command
-            email_data = {
-                "from": "example@example.com",
-                "subject": "Project Update",
-                "body": "Please provide an update on the project status."
-            }
-            response = await self.manager.generate_email_response(email_data)
-            return response
+            if action == 'configure_email':
+                # Configure email settings
+                smtp = params.get('smtp', {})
+                imap = params.get('imap', {})
+                
+                success = True
+                if smtp:
+                    success &= self.manager.configure_smtp(smtp)
+                if imap:
+                    success &= self.manager.configure_imap(imap)
+                
+                if success:
+                    return "Email settings configured successfully."
+                return "Failed to configure email settings."
+                
+            elif action == 'send_email':
+                # Send email
+                to = params.get('to', '')
+                subject = params.get('subject', '')
+                body = params.get('body', '')
+                html = params.get('html', False)
+                
+                if not all([to, subject, body]):
+                    return "Please provide recipient, subject, and body."
+                
+                if await self.manager.send_email(to, subject, body, html):
+                    return f"Email sent to {to}"
+                return "Failed to send email."
+                
+            elif action == 'check_email':
+                # Check emails
+                folder = params.get('folder', 'INBOX')
+                limit = int(params.get('limit', 10))
+                
+                emails = await self.manager.check_email(folder, limit)
+                return self._format_email_list(emails)
+                
+            elif action == 'get_sent_history':
+                # Get sent email history
+                limit = int(params.get('limit', 10))
+                emails = self.manager.get_email_history(sent=True, limit=limit)
+                return self._format_email_list(emails, sent=True)
+                
+            elif action == 'get_received_history':
+                # Get received email history
+                limit = int(params.get('limit', 10))
+                emails = self.manager.get_email_history(sent=False, limit=limit)
+                return self._format_email_list(emails)
             
-        elif "prioritize emails" in command.lower():
-            # This is a simplified example
-            emails = [
-                {
-                    "id": "1",
-                    "subject": "Urgent: Server Down",
-                    "from": "admin@example.com"
-                }
-            ]
-            priorities = await self.manager.prioritize_emails(emails)
-            return self._format_email_priorities(priorities)
+            else:
+                return "I'm not sure what email operation you want to perform."
             
-        return "I'm not sure how to help with that email task."
-
-    def _format_email_summaries(self, summaries: List[Dict]) -> str:
-        """Format email summaries for display"""
-        if summaries and "error" in summaries[0]:
-            return f"Failed to summarize emails: {summaries[0]['error']}"
-            
-        result = "Email Summaries:\n\n"
-        for summary in summaries:
-            result += f"From: {summary.get('from', 'Unknown')}\n"
-            result += f"Subject: {summary.get('subject', 'No Subject')}\n"
-            result += f"Key Points:\n"
-            for point in summary.get('key_points', []):
-                result += f"- {point}\n"
-            if summary.get('action_items'):
-                result += f"\nAction Items:\n"
-                for item in summary['action_items']:
-                    result += f"- {item}\n"
-            result += f"\nPriority: {summary.get('priority', 'Unknown')}\n"
-            result += f"Required Response: {summary.get('required_response', 'None')}\n\n"
-        return result
-
-    def _format_email_priorities(self, priorities: List[Dict]) -> str:
-        """Format email priorities for display"""
-        if priorities and "error" in priorities[0]:
-            return f"Failed to prioritize emails: {priorities[0]['error']}"
-            
-        result = "Email Priorities:\n\n"
-        for priority in priorities:
-            result += f"Subject: {priority.get('subject', 'Unknown')}\n"
-            result += f"Priority: {priority.get('priority_level', 'Unknown')}\n"
-            result += f"Urgency: {priority.get('response_urgency', 'Unknown')}\n"
-            result += f"Category: {priority.get('category', 'Unknown')}\n"
-            result += f"Suggested Handling: {priority.get('suggested_handling', 'Unknown')}\n\n"
-        return result
-
-# Initialize the feature
-email_manager_feature = EmailManagerFeature()
-
-# Export the command handler
-async def handle_email_command(command: str) -> str:
-    """Handle email management related voice commands"""
-    return await email_manager_feature.process_command(command) 
+        except Exception as e:
+            logger.error(f"Error handling email request: {str(e)}")
+            return "I'm sorry, but I encountered an error with the email operation."
+    
+    def is_available(self) -> bool:
+        """Check if the feature is available."""
+        return True  # Email manager is always available
+    
+    async def cleanup(self):
+        """Clean up resources."""
+        pass  # No cleanup needed 

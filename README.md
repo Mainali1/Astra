@@ -1,371 +1,167 @@
-# Astra Voice Assistant
+# Astra AI Assistant
 
-**COPYRIGHT © 2024 ASTRA TECHNOLOGIES. ALL RIGHTS RESERVED.**
+Astra is a powerful, open-source AI assistant with extensive features and capabilities. It comes in two editions: Single Edition (free for individual users) and Industry Edition (for enterprise use).
 
-A fully functional, commercial-ready voice assistant with personality, featuring 50+ modular capabilities, beautiful Flutter UI, and robust Python backend. This software is proprietary and confidential.
+## Features
 
-![Astra Logo](https://img.shields.io/badge/Astra-Voice%20Assistant-blue?style=for-the-badge&logo=python)
-![Python](https://img.shields.io/badge/Python-3.8+-green?style=for-the-badge&logo=python)
-![Flutter](https://img.shields.io/badge/Flutter-3.0+-blue?style=for-the-badge&logo=flutter)
-![License](https://img.shields.io/badge/License-Proprietary-red?style=for-the-badge)
+### Core Features
+- 🧠 DeepSeek AI Integration
+- 🗣️ Voice Recognition (Vosk)
+- 🔊 Text-to-Speech (Piper)
+- 🎯 Intent Recognition
+- 🔄 Feature Management
+- 🌐 API Server
 
-## ⚠️ PROPRIETARY LICENSE NOTICE
+### Productivity Features
+- ⛅ Weather Information (OpenWeatherMap)
+- ⏰ Time & Date Utilities
+- 🧮 Advanced Calculator
+- 📝 Notes Management
+- ⏲️ Timer & Stopwatch
+- 📰 News Aggregation
+- 📚 Dictionary & Thesaurus
+- 🌍 Translation (50+ languages)
+- 📅 Calendar Management
+- 📧 Email Management
+- 📁 File Management
+- 🔍 Wikipedia Integration
+- 💻 System Monitoring
+- 🎵 Music Player
 
-This software and documentation is proprietary and confidential. The code is viewable for transparency purposes only. Any unauthorized copying, modification, distribution, or commercial use is strictly prohibited.
+### Coming Soon
+- 🎙️ Voice Commands
+- 📊 Data Analysis
+- 🤖 Automation Tools
+- 🔒 Security Features
+- 📱 Mobile Integration
 
-**LICENSE TERMS:**
-- Code visibility is granted for transparency only
-- Copying or modification requires 90% code change
-- Original credits must be maintained
-- Commercial use requires 10% royalty payment to Astra Technologies
-- No derivative works without written permission
-- All rights reserved
+## Installation
 
-For licensing inquiries, contact: legal@astra-technologies.com
-
----
-
-## 🌟 Features
-
-### 🎯 Core Capabilities
-- **Voice & Text Interface**: Natural conversation with sassy personality
-- **50+ Modular Features**: Extensible feature system with categories
-- **Offline & Online Support**: Works without internet, enhanced with online services
-- **Cross-Platform**: Windows, Linux, and Android support
-- **Real-time Communication**: WebSocket and REST API endpoints
-- **Free API Integration**: Multiple free APIs for enhanced functionality
-
-### 🎨 Beautiful Flutter UI
-- **Ocean & Night Sky Theme**: Stunning Material 3 design
-- **Voice Waveform Visualization**: Real-time audio feedback
-- **Responsive Design**: Works on all screen sizes
-- **Dark/Light Mode**: Adaptive theming
-- **Accessibility**: Screen reader support and high contrast
-
-### 🧠 AI & Intelligence
-- **DeepSeek Integration**: Advanced language understanding
-- **Personality Injection**: Sassy, witty responses
-- **Context Awareness**: Remembers conversation history
-- **Intent Recognition**: Smart command parsing
-- **Feature Suggestions**: AI-powered recommendations
-
-### 🔧 Feature Modules
-
-#### Productivity
-- ✅ **Notes**: Create, search, and manage notes with tags
-- ✅ **Reminders**: Natural language time parsing and scheduling
-- ✅ **Calculator**: Advanced math with unit conversions
-- ✅ **Weather**: Multi-source weather data with forecasts
-- ✅ **Time**: Timezone support and date utilities
-- ✅ **Converter**: Comprehensive unit conversion system
-
-#### Knowledge & Information
-- ✅ **News**: Multi-source news aggregation with intelligent categorization
-- ✅ **Dictionary**: Word definitions, synonyms, and etymology
-- ✅ **Translation**: 50+ language support with multiple free APIs
-- 🔄 **Web Search**: Free search API integration
-- 🔄 **Wikipedia**: Information lookup
-
-#### Entertainment
-- ✅ **Music Player**: Local and streaming audio with free APIs
-- ✅ **Joke Generator**: Mood-based humor with multiple categories
-- 🔄 **Podcast Catcher**: Audio content management
-- 🔄 **Quote Database**: Inspirational content
-
-#### Communication
-- ✅ **Translation**: Multi-language translation with offline support
-- 🔄 **Email Assistant**: Draft composition and management
-- 🔄 **Meeting Scheduler**: Intelligent calendar integration
-
-#### System Control
-- 🔄 **File Manager**: Local file operations
-- 🔄 **App Launcher**: Fuzzy matching application startup
-- 🔄 **System Monitoring**: Performance tracking
-- 🔄 **Automation**: Custom scripting support
-
-## 🚀 Quick Start
-
-### Prerequisites
-- Python 3.8+
-- Flutter 3.0+
-- Windows/Linux/Android
-
-### Installation
-
-1. **Clone the repository**
+1. Clone the repository:
 ```bash
-git clone https://github.com/astra-technologies/astra-voice-assistant.git
-cd astra-voice-assistant
+git clone https://github.com/yourusername/astra.git
+cd astra
 ```
 
-2. **Install Python dependencies**
+2. Create a virtual environment:
+```bash
+python -m venv .venv
+source .venv/bin/activate  # Linux/Mac
+.venv\Scripts\activate     # Windows
+```
+
+3. Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 
-3. **Setup environment variables**
+4. Copy and configure environment variables:
 ```bash
 cp env_example.txt .env
-# Edit .env with your API keys (see API Configuration section)
+# Edit .env with your API keys and settings
 ```
 
-4. **Install Flutter dependencies**
-```bash
-cd flutter_client
-flutter pub get
-```
-
-5. **Run the backend**
+5. Run Astra:
 ```bash
 python main.py
 ```
 
-6. **Run the Flutter client**
-```bash
-cd flutter_client
-flutter run
-```
+## Configuration
 
-## 📱 Flutter Client
+Astra uses environment variables for configuration. Copy `env_example.txt` to `.env` and configure:
 
-The Flutter client provides a beautiful, responsive interface for interacting with Astra.
+- `DEEPSEEK_API_KEY`: Your DeepSeek API key
+- `OPENWEATHERMAP_API_KEY`: OpenWeatherMap API key
+- `NEWS_API_KEY`: NewsAPI key
+- Other API keys as needed
 
-### Screens
-- **Home**: Voice/text chat interface with waveform visualization
-- **Dashboard**: System status and quick actions
-- **Features**: Manage and toggle feature modules
-- **Settings**: Configuration and preferences
-
-### Features
-- Real-time WebSocket communication
-- Voice waveform visualization
-- Feature management interface
-- Conversation history
-- Status monitoring
-
-## 🐍 Python Backend
-
-The Python backend provides the core intelligence and feature management.
-
-### Architecture
-```
-src/
-├── ai/                 # AI and ML components
-├── core/              # Core voice assistant logic
-├── features/          # Feature modules (50+ features)
-├── server/            # API server
-├── speech/            # Speech processing
-└── config.py          # Configuration
-```
-
-### Key Components
-- **Voice Assistant Core**: Main orchestration
-- **Feature Manager**: Dynamic feature loading and management
-- **Intent Recognizer**: Command parsing and routing
-- **API Server**: REST and WebSocket endpoints
-- **Speech Processing**: Vosk ASR and Piper TTS
-
-## 🔧 Configuration
-
-### Environment Variables
-```bash
-# Core AI Services
-DEEPSEEK_API_KEY=your_deepseek_key
-OPENROUTER_API_KEY=your_openrouter_key
-
-# Weather Services
-OPENWEATHER_API_KEY=your_openweather_key
-WEATHERAPI_KEY=your_weatherapi_key
-
-# News & Information
-NEWS_API_KEY=your_newsapi_key
-WIKIPEDIA_API_KEY=your_wikipedia_key
-
-# Entertainment
-SPOTIFY_CLIENT_ID=your_spotify_client_id
-SPOTIFY_CLIENT_SECRET=your_spotify_secret
-YOUTUBE_API_KEY=your_youtube_key
-GIPHY_API_KEY=your_giphy_key
-
-# Communication
-GOOGLE_TRANSLATE_API_KEY=your_google_key
-EMAILJS_PUBLIC_KEY=your_emailjs_key
-TWILIO_ACCOUNT_SID=your_twilio_sid
-TWILIO_AUTH_TOKEN=your_twilio_token
-
-# Productivity
-CURRENCY_API_KEY=your_currency_key
-IPGEOLOCATION_API_KEY=your_ipgeo_key
-
-# Health & Wellness
-NUTRITION_API_KEY=your_nutrition_key
-EXERCISE_API_KEY=your_exercise_key
-
-# Server Configuration
-SERVER_HOST=0.0.0.0
-SERVER_PORT=8000
-DEBUG_MODE=false
-```
-
-### Feature Configuration
-Features can be enabled/disabled through the Flutter UI or API:
-```bash
-# Enable a feature
-curl -X POST "http://localhost:8000/features/weather/toggle" \
-  -H "Content-Type: application/json" \
-  -d '{"feature_name": "weather", "enabled": true}'
-```
-
-## 📊 API Endpoints
-
-### REST API
-- `GET /health` - Health check
-- `POST /chat` - Process chat messages
-- `GET /features` - List all features
-- `GET /features/{name}` - Get feature info
-- `POST /features/{name}/toggle` - Toggle feature
-- `GET /status` - System status
-- `GET /conversation/history` - Conversation history
-
-### WebSocket
-- `ws://localhost:8000/ws/{client_id}` - Real-time communication
-
-## 🎯 Usage Examples
+## Usage
 
 ### Voice Commands
+1. Say "Hey Astra" to activate
+2. Speak your command
+3. Astra will process and respond
+
+### Text Commands
+1. Type your command in the input field
+2. Press Enter or click Send
+3. Astra will process and respond
+
+## Development
+
+### Project Structure
 ```
-"What's the weather like?"
-"Set a reminder for meeting at 3 PM"
-"Calculate 15 percent of 200"
-"Create a note about project ideas"
-"What time is it in Tokyo?"
-"Tell me the latest news"
-"Translate hello to Spanish"
-"Play some music"
-"Tell me a joke"
+astra/
+├── src/
+│   ├── ai/
+│   │   └── deepseek_client.py
+│   ├── core/
+│   │   ├── feature_manager.py
+│   │   ├── intent_recognizer.py
+│   │   └── voice_assistant.py
+│   ├── features/
+│   │   ├── calculator.py
+│   │   ├── calendar.py
+│   │   ├── dictionary.py
+│   │   ├── email_manager.py
+│   │   ├── file_manager.py
+│   │   ├── music.py
+│   │   ├── news.py
+│   │   ├── notes.py
+│   │   ├── reminder.py
+│   │   ├── system_monitor.py
+│   │   ├── time.py
+│   │   ├── timer.py
+│   │   ├── translation.py
+│   │   ├── weather.py
+│   │   └── wikipedia.py
+│   ├── speech/
+│   │   ├── speech_recognition.py
+│   │   └── text_to_speech.py
+│   └── server/
+│       └── api_server.py
+├── main.py
+└── requirements.txt
 ```
 
-### API Usage
-```python
-import requests
+### Adding New Features
+1. Create feature module in `src/features/`
+2. Implement feature class with required methods
+3. Register feature in `feature_manager.py`
+4. Add intent patterns in `intent_recognizer.py`
+5. Update documentation
 
-# Send a chat message
-response = requests.post("http://localhost:8000/chat", json={
-    "message": "What's the weather like?",
-    "user_id": "user123"
-})
+## Testing
 
-# Get feature information
-features = requests.get("http://localhost:8000/features").json()
-
-# Toggle a feature
-requests.post("http://localhost:8000/features/weather/toggle", json={
-    "enabled": True
-})
-```
-
-## 🔌 Free API Integration
-
-Astra integrates with multiple free APIs to provide enhanced functionality:
-
-### Weather & Environment
-- **OpenWeatherMap**: Current weather and forecasts
-- **WeatherAPI**: Alternative weather data source
-
-### News & Information
-- **NewsAPI**: Current events and headlines
-- **RSS Feeds**: Customizable news aggregation
-- **Wikipedia API**: Knowledge base access
-
-### Entertainment & Media
-- **Spotify Web API**: Music recommendations
-- **YouTube Data API**: Video content search
-- **Giphy API**: Animated content and memes
-
-### Communication & Social
-- **Google Translate API**: Multi-language translation
-- **LibreTranslate**: Free translation service
-- **EmailJS**: Email composition and sending
-
-### Productivity & Tools
-- **Currency API**: Real-time exchange rates
-- **IP Geolocation**: Location-based services
-
-## 🛡️ Security & Privacy
-
-- **End-to-end encryption** for all data
-- **Local processing** for sensitive operations
-- **No cloud data storage** - everything stays on your device
-- **Privacy-focused design** with minimal data collection
-- **Secure API communication** with TLS 1.3
-
-## 📈 Performance
-
-- **Wake word detection**: <200ms latency
-- **Voice command accuracy**: >95% offline
-- **Cold start**: <1.5 seconds
-- **Memory footprint**: <500MB baseline
-- **Battery impact**: <5% additional drain on mobile
-
-## 🧪 Testing
-
+Run tests with pytest:
 ```bash
-# Run all tests
-pytest
-
-# Run specific test categories
-pytest tests/test_features/
-pytest tests/test_api/
-pytest tests/test_speech/
-
-# Run with coverage
-pytest --cov=src tests/
+pytest tests/
 ```
 
-## 📦 Packaging
+## Contributing
 
-### Windows
-```bash
-# Create executable
-pyinstaller --onefile --windowed main.py
+1. Fork the repository
+2. Create feature branch
+3. Commit changes
+4. Push to branch
+5. Create Pull Request
 
-# Create installer
-iscc setup.iss
-```
+## License
 
-### Android
-```bash
-cd flutter_client
-flutter build apk --release
-```
+This project is licensed under a proprietary license. See LICENSE.md for details.
 
-### Linux
-```bash
-# Create AppImage
-appimagetool dist/astra.AppDir dist/astra-x86_64.AppImage
-```
+## Support
 
-## 🤝 Contributing
+- Documentation: [docs/](docs/)
+- Issues: [GitHub Issues](https://github.com/yourusername/astra/issues)
+- Email: support@astra-ai.com
 
-This is proprietary software. For licensing and collaboration inquiries, contact:
-- **Email**: legal@astra-technologies.com
-- **Business**: business@astra-technologies.com
-- **Support**: support@astra-technologies.com
+## Acknowledgments
 
-## 📄 License
-
-**PROPRIETARY SOFTWARE LICENSE**
-
-Copyright © 2024 Astra Technologies. All rights reserved.
-
-This software is proprietary and confidential. See [LICENSE.md](LICENSE.md) for full license terms.
-
-## 🆘 Support
-
-- **Documentation**: [ASTRA_PROJECT_SPECIFICATION.md](ASTRA_PROJECT_SPECIFICATION.md)
-- **Issues**: Contact support@astra-technologies.com
-- **Commercial**: Contact business@astra-technologies.com
-- **Legal**: Contact legal@astra-technologies.com
+- DeepSeek AI for the language model
+- Vosk for speech recognition
+- Piper for text-to-speech
+- All other open-source contributors
 
 ---
 

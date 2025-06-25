@@ -76,11 +76,13 @@ Based on the [production-ready Flutter checklist](https://medium.com/capital-one
 - **✅ Todo Feature** - Comprehensive task management with categories, priorities, and due dates (local)
 - **✅ Timer Feature** - Stopwatch, countdown timers, and Pomodoro timer with voice commands (local)
 - **✅ Calendar Feature** - Manage events, appointments, and schedules with voice commands (local)
-- **🟡 Meeting Scheduler** - Schedule meetings, integrates with calendar and free holiday API (local + Calendarific)
+- **✅ Meeting Scheduler** - Schedule meetings, integrates with calendar and free holiday API (local + Calendarific)
+- **✅ Currency Converter** - Convert currencies using free API (exchangerate.host)
+- **✅ Crypto Prices** - Get crypto prices using CoinGecko API
+- **✅ Web Search** - DuckDuckGo API for web search
 - **🟡 Project Management** - Simple Kanban board for tasks/projects (local)
 - **🟡 Habit Tracker** - Track daily habits and streaks (local)
 - **🟡 Expense Tracker** - Track expenses, CSV export (local)
-- **🟡 Currency Converter** - Convert currencies using free API (exchangerate.host)
 - **🟡 QR Code Generator/Reader** - Generate and scan QR codes (goqr.me API, local)
 - **🟡 Barcode Scanner** - Scan barcodes using free library (local)
 - **🟡 Document Scanner (OCR)** - Extract text from images (Tesseract OCR, local)
@@ -106,9 +108,6 @@ Based on the [production-ready Flutter checklist](https://medium.com/capital-one
 #### **Knowledge**
 - **✅ Wikipedia Feature** - Search Wikipedia articles and get summaries using free API
 - **✅ Summarizer Feature** - Summarize long text using various algorithms and APIs (local, TextAnalysis API)
-- **🟡 Web Search** - DuckDuckGo API for web search
-- **🟡 Crypto Prices** - Get crypto prices using CoinGecko API
-- **🟡 Stock Prices** - Get stock prices using Yahoo Finance/free API
 - **🟡 Educational Content** - Fetch lessons from Khan Academy, Wikipedia, etc.
 - **🟡 Periodic Table** - Chemistry info using free API
 - **🟡 Math Solver** - Solve math problems using Math.js API

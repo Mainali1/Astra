@@ -1,279 +1,195 @@
 """
-Notes feature for Astra Voice Assistant
-Handles note-taking, searching, and management
+Astra AI Assistant - Notes Feature Module
+COPYRIGHT © 2024 Astra Technologies. ALL RIGHTS RESERVED.
 """
 
-import os
+import logging
 import json
-import re
 from datetime import datetime
-from typing import Dict, List, Optional, Tuple
 from pathlib import Path
+from typing import Dict, Any, List, Optional
+from src.config import Config
+
+logger = logging.getLogger(__name__)
+
+class Note:
+    """Represents a single note."""
+    
+    def __init__(self, content: str, title: Optional[str] = None, note_id: Optional[str] = None,
+                 tags: Optional[List[str]] = None):
+        """Initialize a note."""
+        self.id = note_id or str(int(datetime.now().timestamp()))
+        self.title = title or f"Note {self.id}"
+        self.content = content
+        self.tags = tags or []
+        self.created_at = datetime.now()
+        self.updated_at = self.created_at
+    
+    def to_dict(self) -> Dict[str, Any]:
+        """Convert note to dictionary."""
+        return {
+            'id': self.id,
+            'title': self.title,
+            'content': self.content,
+            'tags': self.tags,
+            'created_at': self.created_at.isoformat(),
+            'updated_at': self.updated_at.isoformat()
+        }
+    
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> 'Note':
+        """Create note from dictionary."""
+        note = cls(
+            content=data['content'],
+            title=data['title'],
+            note_id=data['id'],
+            tags=data['tags']
+        )
+        note.created_at = datetime.fromisoformat(data['created_at'])
+        note.updated_at = datetime.fromisoformat(data['updated_at'])
+        return note
 
 class NotesFeature:
-    def __init__(self, data_dir: str = "data/notes"):
-        self.data_dir = Path(data_dir)
-        self.data_dir.mkdir(parents=True, exist_ok=True)
-        self.notes_file = self.data_dir / "notes.json"
-        self.notes = self._load_notes()
-        
-    def _load_notes(self) -> List[Dict]:
-        """Load notes from JSON file"""
-        if self.notes_file.exists():
-            try:
-                with open(self.notes_file, 'r', encoding='utf-8') as f:
-                    return json.load(f)
-            except (json.JSONDecodeError, IOError):
-                return []
-        return []
+    """Notes feature for Astra."""
+    
+    def __init__(self, config: Config):
+        """Initialize the notes feature."""
+        self.config = config
+        self.notes: List[Note] = []
+        self.data_file = Path(config.DATA_DIR) / 'notes.json'
+        self._load_notes()
+    
+    def _load_notes(self):
+        """Load notes from file."""
+        try:
+            if self.data_file.exists():
+                with open(self.data_file, 'r') as f:
+                    data = json.load(f)
+                    self.notes = [Note.from_dict(n) for n in data]
+                    logger.info(f"Loaded {len(self.notes)} notes")
+        except Exception as e:
+            logger.error(f"Error loading notes: {str(e)}")
     
     def _save_notes(self):
-        """Save notes to JSON file"""
+        """Save notes to file."""
         try:
-            with open(self.notes_file, 'w', encoding='utf-8') as f:
-                json.dump(self.notes, f, indent=2, ensure_ascii=False)
-        except IOError as e:
-            print(f"Error saving notes: {e}")
+            self.data_file.parent.mkdir(parents=True, exist_ok=True)
+            with open(self.data_file, 'w') as f:
+                json.dump([n.to_dict() for n in self.notes], f)
+        except Exception as e:
+            logger.error(f"Error saving notes: {str(e)}")
     
-    def create_note(self, title: str, content: str, tags: List[str] = None) -> Dict:
-        """Create a new note"""
-        note = {
-            'id': len(self.notes) + 1,
-            'title': title,
-            'content': content,
-            'tags': tags or [],
-            'created_at': datetime.now().isoformat(),
-            'updated_at': datetime.now().isoformat()
-        }
-        self.notes.append(note)
-        self._save_notes()
-        return note
-    
-    def update_note(self, note_id: int, title: str = None, content: str = None, tags: List[str] = None) -> Optional[Dict]:
-        """Update an existing note"""
+    def _find_note(self, identifier: str) -> Optional[Note]:
+        """Find a note by ID or title."""
         for note in self.notes:
-            if note['id'] == note_id:
-                if title:
-                    note['title'] = title
-                if content:
-                    note['content'] = content
-                if tags is not None:
-                    note['tags'] = tags
-                note['updated_at'] = datetime.now().isoformat()
-                self._save_notes()
+            if note.id == identifier or note.title.lower() == identifier.lower():
                 return note
         return None
     
-    def delete_note(self, note_id: int) -> bool:
-        """Delete a note"""
-        for i, note in enumerate(self.notes):
-            if note['id'] == note_id:
-                del self.notes[i]
+    async def handle(self, intent: Dict[str, Any]) -> str:
+        """Handle note-related intents."""
+        try:
+            action = intent.get('action', '')
+            params = intent.get('parameters', {})
+            
+            if action == 'create_note':
+                # Create new note
+                content = params.get('content', '')
+                title = params.get('title')
+                tags = params.get('tags', '').split(',') if params.get('tags') else []
+                
+                if not content:
+                    return "I need some content to create a note."
+                
+                note = Note(content=content, title=title, tags=tags)
+                self.notes.append(note)
                 self._save_notes()
-                return True
-        return False
-    
-    def get_note(self, note_id: int) -> Optional[Dict]:
-        """Get a specific note"""
-        for note in self.notes:
-            if note['id'] == note_id:
-                return note
-        return None
-    
-    def list_notes(self, limit: int = 10) -> List[Dict]:
-        """List recent notes"""
-        return sorted(self.notes, key=lambda x: x['updated_at'], reverse=True)[:limit]
-    
-    def search_notes(self, query: str) -> List[Dict]:
-        """Search notes by title, content, or tags"""
-        query = query.lower()
-        results = []
-        
-        for note in self.notes:
-            if (query in note['title'].lower() or 
-                query in note['content'].lower() or
-                any(query in tag.lower() for tag in note['tags'])):
-                results.append(note)
-        
-        return sorted(results, key=lambda x: x['updated_at'], reverse=True)
-    
-    def get_notes_by_tag(self, tag: str) -> List[Dict]:
-        """Get notes by tag"""
-        return [note for note in self.notes if tag.lower() in [t.lower() for t in note['tags']]]
-    
-    def get_all_tags(self) -> List[str]:
-        """Get all unique tags"""
-        tags = set()
-        for note in self.notes:
-            tags.update(note['tags'])
-        return sorted(list(tags))
-
-def handle_notes_command(text: str) -> Tuple[str, Dict]:
-    """Handle notes-related voice commands"""
-    text = text.lower()
-    
-    # Initialize notes feature
-    notes = NotesFeature()
-    
-    # Create note
-    if any(word in text for word in ['create note', 'new note', 'take note', 'write note']):
-        # Extract title and content
-        title_match = re.search(r'(?:create|new|take|write)\s+note\s+(?:titled\s+)?["\']?([^"\']+)["\']?', text)
-        content_match = re.search(r'(?:content|saying|about)\s+["\']?([^"\']+)["\']?', text)
-        
-        title = title_match.group(1) if title_match else "Untitled Note"
-        content = content_match.group(1) if content_match else "No content provided"
-        
-        # Extract tags
-        tags = []
-        tag_matches = re.findall(r'#(\w+)', text)
-        tags.extend(tag_matches)
-        
-        note = notes.create_note(title, content, tags)
-        
-        response = f"I've created a note titled '{note['title']}' with {len(tags)} tags."
-        return response, {'action': 'note_created', 'note': note}
-    
-    # Search notes
-    elif any(word in text for word in ['find note', 'search note', 'look for note']):
-        query_match = re.search(r'(?:find|search|look for)\s+note\s+(?:about\s+)?["\']?([^"\']+)["\']?', text)
-        if query_match:
-            query = query_match.group(1)
-            results = notes.search_notes(query)
+                
+                return f"Created note '{note.title}' with ID {note.id}"
+                
+            elif action == 'read_note':
+                # Read existing note
+                identifier = params.get('identifier', '')
+                if not identifier:
+                    return "Which note would you like to read?"
+                
+                note = self._find_note(identifier)
+                if note:
+                    return f"Note '{note.title}':\n{note.content}"
+                return f"I couldn't find a note matching '{identifier}'"
+                
+            elif action == 'update_note':
+                # Update existing note
+                identifier = params.get('identifier', '')
+                content = params.get('content', '')
+                
+                if not identifier or not content:
+                    return "I need both the note identifier and new content to update a note."
+                
+                note = self._find_note(identifier)
+                if note:
+                    note.content = content
+                    note.updated_at = datetime.now()
+                    self._save_notes()
+                    return f"Updated note '{note.title}'"
+                return f"I couldn't find a note matching '{identifier}'"
+                
+            elif action == 'delete_note':
+                # Delete note
+                identifier = params.get('identifier', '')
+                if not identifier:
+                    return "Which note would you like to delete?"
+                
+                note = self._find_note(identifier)
+                if note:
+                    self.notes.remove(note)
+                    self._save_notes()
+                    return f"Deleted note '{note.title}'"
+                return f"I couldn't find a note matching '{identifier}'"
+                
+            elif action == 'list_notes':
+                # List all notes
+                if not self.notes:
+                    return "You don't have any notes."
+                
+                response = "Here are your notes:\n"
+                for note in sorted(self.notes, key=lambda x: x.updated_at, reverse=True):
+                    tags = f" [Tags: {', '.join(note.tags)}]" if note.tags else ""
+                    response += f"- {note.title}{tags}\n"
+                return response
+                
+            elif action == 'search_notes':
+                # Search notes
+                query = params.get('query', '').lower()
+                if not query:
+                    return "What would you like to search for in your notes?"
+                
+                matches = []
+                for note in self.notes:
+                    if (query in note.title.lower() or 
+                        query in note.content.lower() or 
+                        any(query in tag.lower() for tag in note.tags)):
+                        matches.append(note)
+                
+                if not matches:
+                    return f"No notes found matching '{query}'"
+                
+                response = f"Found {len(matches)} matching notes:\n"
+                for note in matches:
+                    response += f"- {note.title}\n"
+                return response
             
-            if results:
-                response = f"I found {len(results)} notes matching '{query}':\n"
-                for i, note in enumerate(results[:5], 1):
-                    response += f"{i}. {note['title']} (updated {note['updated_at'][:10]})\n"
             else:
-                response = f"I couldn't find any notes matching '{query}'."
-        else:
-            response = "What would you like me to search for in your notes?"
-        
-        return response, {'action': 'notes_searched', 'query': query_match.group(1) if query_match else None}
-    
-    # List notes
-    elif any(word in text for word in ['list notes', 'show notes', 'my notes', 'all notes']):
-        all_notes = notes.list_notes(10)
-        
-        if all_notes:
-            response = f"You have {len(all_notes)} recent notes:\n"
-            for i, note in enumerate(all_notes, 1):
-                response += f"{i}. {note['title']} (updated {note['updated_at'][:10]})\n"
-        else:
-            response = "You don't have any notes yet. Would you like me to create one for you?"
-        
-        return response, {'action': 'notes_listed', 'count': len(all_notes)}
-    
-    # Delete note
-    elif any(word in text for word in ['delete note', 'remove note', 'erase note']):
-        # Try to find note by title or ID
-        title_match = re.search(r'(?:delete|remove|erase)\s+note\s+(?:titled\s+)?["\']?([^"\']+)["\']?', text)
-        id_match = re.search(r'(?:delete|remove|erase)\s+note\s+(\d+)', text)
-        
-        if id_match:
-            note_id = int(id_match.group(1))
-            note = notes.get_note(note_id)
-            if note and notes.delete_note(note_id):
-                response = f"I've deleted the note '{note['title']}'."
-            else:
-                response = f"I couldn't find a note with ID {note_id}."
-        elif title_match:
-            title = title_match.group(1)
-            # Find note by title
-            for note in notes.notes:
-                if title.lower() in note['title'].lower():
-                    if notes.delete_note(note['id']):
-                        response = f"I've deleted the note '{note['title']}'."
-                        break
-            else:
-                response = f"I couldn't find a note titled '{title}'."
-        else:
-            response = "Which note would you like me to delete? Please specify the title or ID."
-        
-        return response, {'action': 'note_deleted'}
-    
-    # Show note content
-    elif any(word in text for word in ['read note', 'show note', 'open note']):
-        title_match = re.search(r'(?:read|show|open)\s+note\s+(?:titled\s+)?["\']?([^"\']+)["\']?', text)
-        id_match = re.search(r'(?:read|show|open)\s+note\s+(\d+)', text)
-        
-        if id_match:
-            note_id = int(id_match.group(1))
-            note = notes.get_note(note_id)
-            if note:
-                response = f"Note: {note['title']}\n\n{note['content']}\n\nTags: {', '.join(note['tags']) if note['tags'] else 'None'}"
-            else:
-                response = f"I couldn't find a note with ID {note_id}."
-        elif title_match:
-            title = title_match.group(1)
-            # Find note by title
-            for note in notes.notes:
-                if title.lower() in note['title'].lower():
-                    response = f"Note: {note['title']}\n\n{note['content']}\n\nTags: {', '.join(note['tags']) if note['tags'] else 'None'}"
-                    break
-            else:
-                response = f"I couldn't find a note titled '{title}'."
-        else:
-            response = "Which note would you like me to read? Please specify the title or ID."
-        
-        return response, {'action': 'note_read'}
-    
-    # List tags
-    elif any(word in text for word in ['list tags', 'show tags', 'my tags']):
-        tags = notes.get_all_tags()
-        
-        if tags:
-            response = f"You have {len(tags)} tags:\n{', '.join(tags)}"
-        else:
-            response = "You don't have any tags yet."
-        
-        return response, {'action': 'tags_listed', 'tags': tags}
-    
-    # Notes by tag
-    elif 'notes with tag' in text or 'notes tagged' in text:
-        tag_match = re.search(r'(?:notes with tag|notes tagged)\s+["\']?([^"\']+)["\']?', text)
-        if tag_match:
-            tag = tag_match.group(1)
-            tagged_notes = notes.get_notes_by_tag(tag)
+                return "I'm not sure what you want to do with notes."
             
-            if tagged_notes:
-                response = f"I found {len(tagged_notes)} notes with tag '{tag}':\n"
-                for i, note in enumerate(tagged_notes, 1):
-                    response += f"{i}. {note['title']} (updated {note['updated_at'][:10]})\n"
-            else:
-                response = f"I couldn't find any notes with tag '{tag}'."
-        else:
-            response = "Which tag would you like me to search for?"
-        
-        return response, {'action': 'notes_by_tag', 'tag': tag_match.group(1) if tag_match else None}
+        except Exception as e:
+            logger.error(f"Error handling notes request: {str(e)}")
+            return "I'm sorry, but I encountered an error processing your notes request."
     
-    # Default response
-    else:
-        response = """I can help you with notes! Here's what I can do:
-- Create a new note: "Create note titled [title] about [content]"
-- Search notes: "Find note about [topic]"
-- List notes: "Show my notes"
-- Read a note: "Read note [title or ID]"
-- Delete a note: "Delete note [title or ID]"
-- List tags: "Show my tags"
-- Find notes by tag: "Show notes with tag [tag]"
-
-What would you like to do with your notes?"""
-        
-        return response, {'action': 'notes_help'}
-
-# Feature registration
-FEATURE_INFO = {
-    'name': 'notes',
-    'description': 'Create, search, and manage text notes with tags',
-    'keywords': ['note', 'notes', 'write', 'create', 'search', 'find', 'delete', 'tag', 'tags'],
-    'examples': [
-        'Create a note titled "Meeting Notes" about the project discussion',
-        'Find notes about weather',
-        'Show my notes',
-        'Read note "Shopping List"',
-        'Delete note 5',
-        'Show notes with tag work'
-    ]
-} 
+    def is_available(self) -> bool:
+        """Check if the feature is available."""
+        return True  # Notes feature is always available as it's offline
+    
+    async def cleanup(self):
+        """Clean up resources."""
+        self._save_notes() 
