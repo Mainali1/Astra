@@ -1,0 +1,128 @@
+# Core dependencies
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+websockets==12.0
+pydantic==2.5.0
+
+# AI and ML
+openai==1.3.7
+requests==2.31.0
+aiohttp==3.9.1
+
+# Speech processing
+vosk==0.3.45
+piper-tts==1.2.0
+sounddevice==0.4.6
+numpy==1.24.3
+scipy==1.11.4
+
+# Audio processing
+pyaudio==0.2.11
+librosa==0.10.1
+webrtcvad==2.0.10
+pydub==0.25.1
+
+# Natural language processing
+nltk==3.8.1
+spacy==3.7.2
+dateparser==1.2.0
+python-dateutil==2.8.2
+textblob==0.17.1
+sumy==0.11.0
+
+# Data and storage
+sqlalchemy==2.0.23
+alembic==1.13.1
+redis==5.0.1
+
+# Configuration and environment
+python-dotenv==1.0.0
+pydantic-settings==2.1.0
+hydra-core==1.3.2
+
+# System monitoring
+psutil==5.9.6
+
+# Timezone and datetime
+pytz==2023.3
+arrow==1.3.0
+
+# Development and testing
+pytest==7.4.3
+pytest-asyncio==0.23.2
+pytest-cov==4.1.0
+
+# Automation and workflow
+schedule==1.2.1
+rocketry==2.5.1
+watchdog==3.0.0
+plyer==2.1.0
+geopy==2.4.1
+
+# OCR and document processing
+pytesseract==0.3.10
+opencv-python-headless==4.8.1.78
+pdf2image==1.16.3
+pypdfocr==0.9.1
+python-bidi==0.4.2
+pandas==2.1.4
+openpyxl==3.1.2
+
+# File management
+pathlib==1.0.1
+shutil-which==3.1.0
+send2trash==1.8.2
+
+# Security
+cryptography==41.0.7
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+
+# Utilities
+tqdm==4.66.1
+colorama==0.4.6
+python-slugify==8.0.1
+humanize==4.9.0
+
+# GUI and visualization
+pygame==2.5.2
+matplotlib==3.8.2
+seaborn==0.13.0
+
+# Network and API
+zeroconf==0.131.0
+httpx==0.25.2
+requests-oauthlib==1.3.1
+requests-cache==1.1.1
+asyncio-mqtt==0.16.1
+wikipedia-api==0.6.0
+
+# Text processing and analysis
+regex==2023.10.3
+textstat==0.7.3
+typing-extensions==4.8.0
+
+# Caching
+diskcache==5.6.3
+
+# Documentation
+sphinx==7.2.6
+
+# Packaging
+setuptools==69.0.2
+wheel==0.42.0
+
+# Desktop Integration
+pyautogui==0.9.54
+keyboard==0.13.5
+mouse==0.7.1
+pywin32==306; sys_platform == 'win32'
+python-xlib==0.33; sys_platform == 'linux'
+
+# Notification Systems
+win10toast==0.9; sys_platform == 'win32'
+notify2==0.3.1; sys_platform == 'linux'
+rumps==0.4.0; sys_platform == 'darwin'
+
+# PyInstaller
+pyinstaller==6.3.0 

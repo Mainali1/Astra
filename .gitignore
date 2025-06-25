@@ -1,0 +1,128 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+.env
+.venv
+venv/
+ENV/
+env/
+env.bak/
+venv.bak/
+
+# IDEs and editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.settings/
+.classpath
+
+# Flutter/Dart
+flutter_client/.dart_tool/
+flutter_client/.flutter-plugins
+flutter_client/.flutter-plugins-dependencies
+flutter_client/.packages
+flutter_client/build/
+flutter_client/.pub-cache/
+flutter_client/.pub/
+flutter_client/coverage/
+flutter_client/.test_coverage.dart
+flutter_client/ios/Flutter/.last_build_id
+flutter_client/ios/Pods/
+flutter_client/android/.gradle/
+flutter_client/android/app/debug/
+flutter_client/android/app/profile/
+flutter_client/android/app/release/
+flutter_client/android/local.properties
+flutter_client/android/key.properties
+flutter_client/*.iml
+flutter_client/*.iws
+flutter_client/*.ipr
+
+# Windows specific
+*.exe
+*.dll
+*.pyd
+*.manifest
+*.spec
+*.log
+
+# Sensitive data and configs
+config/*.json
+!config/automation/example_config.json
+!config/automation/document_rules.json
+*.key
+*.pem
+*.env
+credentials.json
+secrets.json
+
+# Voice models and large files
+Voice/*
+!Voice/README.md
+*.onnx
+*.onnx.json
+*.mdl
+*.fst
+
+# Build and cache directories
+__pycache__/
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# Logs and databases
+*.log
+*.sqlite
+*.db
+logs/
+*.log.*
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+*~.nib
+*.swn
+*.swo
+
+# Project specific
+deepseek_api_key.txt
+openrouter_api_key.txt
+*.session
+*.history
+.astra_cache/ 

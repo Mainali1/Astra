@@ -1,0 +1,159 @@
+# DeepSeek API Configuration
+OPENROUTER_API_KEY=your_openrouter_api_key_here
+DEEPSEEK_MODEL=deepseek/deepseek-r1-0528:free
+
+# Weather APIs (Multiple free sources)
+OPENWEATHER_API_KEY=your_openweather_api_key_here
+WEATHERAPI_KEY=your_weatherapi_key_here
+
+# News APIs
+NEWS_API_KEY=your_newsapi_key_here
+WIKIPEDIA_API_KEY=your_wikipedia_key_here
+
+# Entertainment APIs
+SPOTIFY_CLIENT_ID=your_spotify_client_id_here
+SPOTIFY_CLIENT_SECRET=your_spotify_client_secret_here
+YOUTUBE_API_KEY=your_youtube_api_key_here
+GIPHY_API_KEY=your_giphy_api_key_here
+UNSPLASH_API_KEY=your_unsplash_api_key_here
+
+# Communication APIs
+GOOGLE_TRANSLATE_API_KEY=your_google_translate_key_here
+LIBRE_TRANSLATE_API_KEY=your_libre_translate_key_here
+EMAILJS_PUBLIC_KEY=your_emailjs_public_key_here
+TWILIO_ACCOUNT_SID=your_twilio_account_sid_here
+TWILIO_AUTH_TOKEN=your_twilio_auth_token_here
+
+# Productivity APIs
+CURRENCY_API_KEY=your_currency_api_key_here
+IPGEOLOCATION_API_KEY=your_ipgeolocation_api_key_here
+QR_CODE_API_KEY=your_qr_code_api_key_here
+
+# Health & Wellness APIs
+NUTRITION_API_KEY=your_nutrition_api_key_here
+EXERCISE_API_KEY=your_exercise_api_key_here
+MEDITATION_API_KEY=your_meditation_api_key_here
+
+# Optional: Bing Search API (free tier)
+BING_SEARCH_API_KEY=your_bing_search_api_key_here
+
+# Server Configuration
+SERVER_HOST=0.0.0.0
+SERVER_PORT=8000
+DEBUG_MODE=true
+
+# Security
+ENCRYPTION_KEY=your_32_character_encryption_key_here
+JWT_SECRET=your_jwt_secret_here
+
+# Audio Configuration
+SAMPLE_RATE=16000
+CHUNK_SIZE=1024
+WAKE_WORD=astra
+
+# TTS Configuration
+TTS_VOICE=en_GB-amy-medium
+TTS_SPEED=1.0
+TTS_PITCH=1.0
+
+# Storage Paths
+DATA_DIR=./data
+MODELS_DIR=./models
+CACHE_DIR=./cache
+
+# Feature Toggles
+ENABLE_WEATHER=true
+ENABLE_NEWS=true
+ENABLE_WEB_SEARCH=true
+ENABLE_CALENDAR=true
+ENABLE_EMAIL=true
+ENABLE_MUSIC=true
+ENABLE_NOTES=true
+ENABLE_TASKS=true
+ENABLE_CALCULATOR=true
+ENABLE_TRANSLATOR=true
+ENABLE_WIKIPEDIA=true
+ENABLE_SYSTEM_CONTROL=true
+ENABLE_MEDIA_PLAYER=true
+ENABLE_PODCASTS=true
+ENABLE_AUDIOBOOKS=true
+ENABLE_MEME_CREATOR=true
+ENABLE_VIDEO_PLAYER=true
+ENABLE_HABIT_TRACKER=true
+ENABLE_MOOD_TRACKER=true
+ENABLE_JOKE_GENERATOR=true
+ENABLE_QUOTE_GENERATOR=true
+ENABLE_VIRTUAL_PARTNER=true
+ENABLE_EDUCATION=true
+ENABLE_PROJECT_MANAGEMENT=true
+ENABLE_MEETING_SCHEDULER=true
+ENABLE_POMODORO=true
+ENABLE_STOPWATCH=true
+ENABLE_TIMER=true
+ENABLE_UNIT_CONVERTER=true
+ENABLE_DICTIONARY=true
+ENABLE_FILE_MANAGER=true
+ENABLE_APP_LAUNCHER=true
+ENABLE_AUTOMATION=true
+ENABLE_HARDWARE_CONTROL=true
+ENABLE_NETWORK_DIAGNOSTICS=true
+ENABLE_BATTERY_OPTIMIZATION=true
+ENABLE_SYSTEM_MONITORING=true
+ENABLE_NETWORK_DISCOVERY=true
+ENABLE_SYNC=true
+ENABLE_ENCRYPTION=true
+ENABLE_VOICEPRINT=true
+ENABLE_ACCESSIBILITY=true
+ENABLE_INTERNATIONALIZATION=true
+ENABLE_CRASH_REPORTING=true
+ENABLE_TELEMETRY=false
+
+# Enhanced Feature Configuration
+
+# News Configuration
+NEWS_CACHE_DURATION=1800  # 30 minutes in seconds
+NEWS_MAX_ARTICLES=10
+NEWS_CATEGORIES=general,technology,business,sports,entertainment,science,politics,environment
+
+# Translation Configuration
+TRANSLATION_CACHE_DURATION=604800  # 7 days in seconds
+TRANSLATION_MAX_LENGTH=5000
+TRANSLATION_SUPPORTED_LANGUAGES=en,es,fr,de,it,pt,ru,zh,ja,ko,ar,hi,bn,ur,tr,nl,sv,no,da,fi,pl,cs,hu,ro,bg,el,he,th,vi,id,ms,tl,sw,yo,zu,af,sq,hy,az,eu,be,bs,ca,hr,et,gl,ka,is,ga,lv,lt,mk,mt,mn,fa,sr,sk,sl,uk,cy
+
+# Music Configuration
+MUSIC_CACHE_DURATION=86400  # 24 hours in seconds
+MUSIC_MAX_SEARCH_RESULTS=10
+MUSIC_SUPPORTED_FORMATS=mp3,wav,flac,m4a,ogg,wma
+MUSIC_DEFAULT_VOLUME=50
+
+# Jokes Configuration
+JOKES_CACHE_DURATION=43200  # 12 hours in seconds
+JOKES_MAX_PER_REQUEST=5
+JOKES_CATEGORIES=general,programming,dad_jokes,one_liners
+
+# Weather Configuration
+WEATHER_CACHE_DURATION=3600  # 1 hour in seconds
+WEATHER_DEFAULT_UNITS=metric
+WEATHER_MAX_FORECAST_DAYS=7
+
+# System Configuration
+SYSTEM_MAX_PROCESSES=100
+SYSTEM_MONITOR_INTERVAL=60  # seconds
+SYSTEM_LOG_RETENTION_DAYS=30
+
+# Security Configuration
+SECURITY_MAX_LOGIN_ATTEMPTS=5
+SECURITY_SESSION_TIMEOUT=3600  # 1 hour in seconds
+SECURITY_PASSWORD_MIN_LENGTH=8
+
+# Performance Configuration
+PERFORMANCE_MAX_CONCURRENT_REQUESTS=10
+PERFORMANCE_REQUEST_TIMEOUT=30  # seconds
+PERFORMANCE_MEMORY_LIMIT=1073741824  # 1GB in bytes
+
+# Logging Configuration
+LOG_LEVEL=INFO
+LOG_FORMAT=json
+LOG_FILE=./logs/astra.log
+LOG_MAX_SIZE=10485760  # 10MB in bytes
+LOG_BACKUP_COUNT=5 
