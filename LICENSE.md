@@ -1,4 +1,4 @@
-# ASTRA TECHNOLOGIES - PROPRIETARY SOFTWARE LICENSE
+# ASTRA TECHNOLOGIES - DUAL EDITION SOFTWARE LICENSE
 
 **COPYRIGHT © 2024 ASTRA TECHNOLOGIES. ALL RIGHTS RESERVED.**
 
@@ -8,183 +8,217 @@
 
 ---
 
-## 1. GRANT OF LICENSE
+## 1. DEFINITIONS
 
-### 1.1 Viewing Rights
-Astra Technologies ("Licensor") grants you ("Licensee") a limited, non-exclusive, non-transferable right to view the source code of the Astra Voice Assistant System ("Software") for transparency and educational purposes only.
+### 1.1 Editions
+- "Home Edition" refers to the personal-use version of the Software
+- "Enterprise Edition" refers to the business/industrial version of the Software
 
-### 1.2 Restrictions on Use
-- **No Copying**: You may not copy, reproduce, or duplicate any portion of the Software
-- **No Modification**: You may not modify, alter, or create derivative works
-- **No Distribution**: You may not distribute, sublicense, or transfer the Software
-- **No Commercial Use**: You may not use the Software for commercial purposes
-- **No Reverse Engineering**: You may not reverse engineer, decompile, or disassemble the Software
+### 1.2 License Types
+- "Home License" grants rights to use the Home Edition
+- "Enterprise License" grants rights to use the Enterprise Edition
 
 ---
 
-## 2. INTELLECTUAL PROPERTY RIGHTS
+## 2. GRANT OF LICENSE
 
-### 2.1 Ownership
-All rights, title, and interest in and to the Software, including but not limited to:
-- Source code, object code, and documentation
-- Algorithms, methodologies, and trade secrets
-- User interface designs and graphics
-- Audio processing and AI models
-- Database schemas and data structures
-- API integrations and protocols
+### 2.1 Home Edition License
+Astra Technologies ("Licensor") grants you ("Licensee") a limited, non-exclusive license to:
+- Use the Home Edition for personal, non-commercial purposes
+- Install on one primary device
+- Purchase additional user packs (5 users each) at $100 per pack
+- Access only Home Edition features as specified in documentation
 
-### 2.2 Trademarks
-"Astra", "Astra Technologies", and related logos are trademarks of Astra Technologies.
+### 2.2 Enterprise Edition License
+Grants a commercial, non-exclusive license to:
+- Use the Enterprise Edition for business/industrial purposes
+- Deploy across authorized business locations
+- Access all features including enterprise-exclusive features
+- Requires per-user or organization-wide licensing
 
-### 2.3 Patents
-All patentable inventions, discoveries, and improvements are the exclusive property of Astra Technologies.
-
----
-
-## 3. DERIVATIVE WORKS POLICY
-
-### 3.1 Definition
-A "Derivative Work" means any work based upon the Software, including but not limited to:
-- Modifications, adaptations, or translations
-- Works incorporating substantial portions of the Software
-- Works that are substantially similar in functionality
-- Works that use the Software's algorithms or methodologies
-
-### 3.2 Requirements for Derivative Works
-If you wish to create a derivative work, you must:
-
-1. **Code Change Requirement**: Modify at least 90% of the original source code
-2. **Credit Attribution**: Include prominent attribution to Astra Technologies
-3. **Written Permission**: Obtain written permission from Astra Technologies
-4. **Royalty Payment**: Pay 10% of gross revenue from the derivative work
-5. **Quality Standards**: Meet Astra Technologies' quality and security standards
-
-### 3.3 Attribution Requirements
-All derivative works must include:
-```
-"Based on Astra Voice Assistant System © 2024 Astra Technologies
-Original code modified by [Your Name/Company] with permission
-Royalty agreement in effect - 10% of revenue payable to Astra Technologies"
-```
+### 2.3 Restrictions (All Editions)
+- **No Copying**: You may not copy or reproduce the Software
+- **No Modification**: You may not modify or create derivative works
+- **No Distribution**: You may not distribute or sublicense
+- **No Reverse Engineering**: You may not reverse engineer or decompile
+- **No Feature Extraction**: You may not extract or isolate features
 
 ---
 
-## 4. COMMERCIAL USE AND ROYALTIES
+## 3. EDITION-SPECIFIC TERMS
 
-### 4.1 Commercial License Required
-Any commercial use of the Software or derivative works requires a separate commercial license.
+### 3.1 Home Edition Terms
+- Limited to personal or small team use
+- Cannot be used for commercial operations
+- Feature set locked to Home Edition capabilities
+- No enterprise features or integrations
+- Community support only
 
-### 4.2 Royalty Structure
-- **10% of Gross Revenue**: From all commercial uses of derivative works
-- **Quarterly Payments**: Due within 30 days of quarter end
-- **Audit Rights**: Astra Technologies reserves the right to audit revenue
-- **Penalty for Non-Payment**: 2% monthly interest on overdue amounts
-
-### 4.3 Revenue Definition
-"Gross Revenue" includes all income generated from:
-- Software sales and licensing
-- Subscription fees and recurring revenue
-- Service fees and consulting
-- Advertising and sponsorship
-- Data monetization
-- Any other commercial exploitation
+### 3.2 Enterprise Edition Terms
+- Requires valid enterprise license key
+- Mandatory license validation
+- Feature set includes all capabilities
+- Priority technical support
+- Custom integration rights (with approval)
+- Compliance with industry regulations required
 
 ---
 
-## 5. ENFORCEMENT AND PENALTIES
+## 4. INTELLECTUAL PROPERTY RIGHTS
 
-### 5.1 Monitoring and Detection
-Astra Technologies employs various methods to detect unauthorized use:
-- Code fingerprinting and watermarking
-- Usage analytics and telemetry
-- Automated scanning and monitoring
-- Community reporting mechanisms
+### 4.1 Ownership
+All rights, title, and interest in and to both editions, including:
+- Source code and object code
+- Algorithms and methodologies
+- User interface designs
+- AI/ML models and training data
+- APIs and protocols
+- Documentation and materials
 
-### 5.2 Penalties for Violation
-Violation of this license may result in:
-- Immediate cease and desist orders
+### 4.2 Protection Measures
+- Software contains copy protection and usage monitoring
+- License key validation and edition verification
+- Feature access control mechanisms
+- Usage telemetry and compliance monitoring
+- Anti-tampering measures
+
+---
+
+## 5. COMMERCIAL USE AND LICENSING
+
+### 5.1 Home Edition Commercial Restrictions
+- Strictly prohibited for commercial use
+- Violation voids license immediately
+- Damages of $250,000 per violation
+- Mandatory upgrade to Enterprise Edition
+
+### 5.2 Enterprise Edition Requirements
+- Valid enterprise license required
+- Annual compliance audits
+- Usage reporting requirements
+- Data handling compliance
+- Security standards adherence
+
+### 5.3 License Validation
+- Continuous license validation
+- Automated compliance checking
+- Regular authentication required
+- Usage pattern monitoring
+- Edition verification checks
+
+---
+
+## 6. ENFORCEMENT AND PENALTIES
+
+### 6.1 Monitoring Systems
+- Automated usage tracking
+- Feature access logging
+- Edition compliance verification
+- License key validation
+- User count monitoring
+- Installation tracking
+
+### 6.2 Violation Penalties
+- Immediate license termination
+- Monetary damages:
+  - Home Edition: Up to $250,000 per violation
+  - Enterprise Edition: Up to $1,000,000 per violation
 - Legal action and injunctions
-- Monetary damages up to $100,000 per violation
-- Criminal prosecution where applicable
 - Public disclosure of violations
+- Blacklisting from future licensing
 
-### 5.3 Legal Jurisdiction
-This license is governed by the laws of [Jurisdiction], and disputes shall be resolved in the courts of [Jurisdiction].
-
----
-
-## 6. CONFIDENTIALITY AND NON-DISCLOSURE
-
-### 6.1 Confidential Information
-The Software contains confidential and proprietary information including:
-- Trade secrets and algorithms
-- Implementation details and methodologies
-- API integrations and protocols
-- Security mechanisms and encryption
-
-### 6.2 Non-Disclosure Obligations
-You agree to:
-- Maintain strict confidentiality of all proprietary information
-- Not disclose any confidential information to third parties
-- Use reasonable care to protect confidential information
-- Return or destroy all confidential materials upon request
+### 6.3 Audit Rights
+- Random compliance audits
+- Usage pattern analysis
+- Feature access review
+- User count verification
+- Installation location checks
 
 ---
 
-## 7. WARRANTY DISCLAIMER
+## 7. CONFIDENTIALITY
 
-### 7.1 No Warranty
-THE SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.
+### 7.1 Protected Information
+- Source code and algorithms
+- Feature implementations
+- Security mechanisms
+- Business logic
+- User data handling
+- Integration methods
 
-### 7.2 Limitation of Liability
-IN NO EVENT SHALL ASTRA TECHNOLOGIES BE LIABLE FOR ANY DAMAGES, INCLUDING BUT NOT LIMITED TO DIRECT, INDIRECT, INCIDENTAL, SPECIAL, OR CONSEQUENTIAL DAMAGES.
-
----
-
-## 8. TERMINATION
-
-### 8.1 Termination Conditions
-This license terminates automatically if you fail to comply with any terms.
-
-### 8.2 Effect of Termination
-Upon termination:
-- All rights granted under this license cease immediately
-- You must cease all use of the Software
-- You must destroy all copies of the Software
-- You must remove all derivative works
+### 7.2 Security Requirements
+- Data encryption mandatory
+- Access controls required
+- Security best practices
+- Regular security audits
+- Incident reporting
 
 ---
 
-## 9. MISCELLANEOUS
+## 8. WARRANTY AND LIABILITY
 
-### 9.1 Severability
-If any provision of this license is held invalid, the remaining provisions remain in full force and effect.
+### 8.1 Limited Warranty
+- Enterprise Edition: 90-day defect warranty
+- Home Edition: No warranty
 
-### 9.2 Entire Agreement
-This license constitutes the entire agreement between the parties regarding the Software.
-
-### 9.3 Amendments
-This license may only be amended in writing and signed by both parties.
-
-### 9.4 Contact Information
-For licensing inquiries:
-- **Email**: legal@astra-technologies.com
-- **Phone**: [Phone Number]
-- **Address**: [Legal Address]
+### 8.2 Liability Limits
+- Home Edition: No liability
+- Enterprise Edition: Limited to license fees paid
 
 ---
 
-## 10. ACKNOWLEDGMENT
+## 9. TERMINATION
 
-By viewing, accessing, or using the Software, you acknowledge that:
-1. You have read and understood this license
-2. You agree to be bound by all terms and conditions
-3. You understand the proprietary nature of the Software
-4. You will comply with all restrictions and requirements
+### 9.1 Automatic Termination
+- License violations
+- Payment defaults
+- Unauthorized use
+- Security breaches
+- Compliance failures
 
-**This license is legally binding and enforceable. Violation may result in severe legal consequences.**
+### 9.2 Termination Effects
+- Immediate access revocation
+- Data export requirements
+- System deactivation
+- Certification of removal
+- Audit requirements
 
 ---
+
+## 10. JURISDICTION AND ENFORCEMENT
+
+### 10.1 Governing Law
+- [Jurisdiction] law applies
+- Exclusive jurisdiction
+- Mandatory arbitration
+- Injunctive rights
+- International enforcement
+
+### 10.2 Dispute Resolution
+- Mandatory mediation
+- Binding arbitration
+- Court proceedings
+- Emergency remedies
+- International enforcement
+
+---
+
+## 11. ACKNOWLEDGMENT
+
+By installing, accessing, or using either edition of the Software, you acknowledge:
+1. Full understanding of edition differences
+2. Acceptance of edition-specific terms
+3. Compliance with usage restrictions
+4. Understanding of penalties
+5. Agreement to monitoring
+
+---
+
+**CONTACT INFORMATION**  
+For licensing inquiries:  
+- **Enterprise Sales**: enterprise@astra-technologies.com  
+- **Support**: support@astra-technologies.com  
+- **Legal**: legal@astra-technologies.com  
 
 **ASTRA TECHNOLOGIES**  
 **COPYRIGHT © 2024. ALL RIGHTS RESERVED.** 

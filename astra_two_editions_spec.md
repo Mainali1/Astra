@@ -69,7 +69,8 @@ Ensure **Astra** answers all queries related to its available features with conf
 
 **Architecture Diagrams:** 🏗️📊🔍
 
-```graph LR
+```mermid
+graph LR
     A[Python Core Service] --> B[Speech Engine]
     A --> C[Sync Engine]
     A --> D[ML Inference]
@@ -81,7 +82,8 @@ Ensure **Astra** answers all queries related to its available features with conf
     D --> J[Offline Fallback]
 ```
 
-```flowchart LR
+```mermid
+flowchart LR
     Windows --> InnoSetup[Single EXE
 Inno Setup]
     Android --> Flutter[APK/AAB]
@@ -89,7 +91,8 @@ Inno Setup]
     Industry --> Docker[K8s Helm Charts]
 ```
 
-```gantt
+```mermid
+gantt
     title Edition Rollout
     dateFormat  YYYY-MM-DD
     section Core

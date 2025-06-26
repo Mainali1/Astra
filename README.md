@@ -1,10 +1,15 @@
 # Astra AI Assistant
 
-Astra is a powerful, open-source AI assistant with extensive features and capabilities. It comes in two editions: Single Edition (free for individual users) and Industry Edition (for enterprise use).
+Astra is a powerful, open-source AI assistant with extensive features and capabilities. It comes in two editions:
+
+- **🏠 Home Edition**: Perfect for personal use, with a comprehensive set of features for individual productivity
+- **🏢 Enterprise Edition**: Advanced features for business use, including team collaboration and enterprise security
 
 ## Features
 
-### Core Features
+### 🏠 Home Edition Features
+
+#### Core Features
 - 🧠 DeepSeek AI Integration
 - 🗣️ Voice Recognition (Vosk)
 - 🔊 Text-to-Speech (Piper)
@@ -12,7 +17,7 @@ Astra is a powerful, open-source AI assistant with extensive features and capabi
 - 🔄 Feature Management
 - 🌐 API Server
 
-### Productivity Features
+#### Productivity
 - ⛅ Weather Information (OpenWeatherMap)
 - ⏰ Time & Date Utilities
 - 🧮 Advanced Calculator
@@ -24,16 +29,53 @@ Astra is a powerful, open-source AI assistant with extensive features and capabi
 - 📅 Calendar Management
 - 📧 Email Management
 - 📁 File Management
-- 🔍 Wikipedia Integration
+- 🔍 Web Search (DuckDuckGo)
 - 💻 System Monitoring
 - 🎵 Music Player
 
-### Coming Soon
-- 🎙️ Voice Commands
-- 📊 Data Analysis
-- 🤖 Automation Tools
-- 🔒 Security Features
-- 📱 Mobile Integration
+#### Finance
+- 💱 Currency Converter
+- 📈 Crypto Price Tracking
+- 📊 Basic Analytics
+
+#### Automation
+- 🤖 Basic Automation Rules
+- 📋 Simple Workflows
+- 📜 Script Management
+- 📸 OCR Integration
+
+### 🏢 Enterprise Edition Features
+All Home Edition features, plus:
+
+#### Team Features
+- 📊 Project Management
+- 👥 Team Collaboration
+- 🔑 Role Management
+- 📋 Task Assignment
+
+#### Security & Compliance
+- 📝 Audit Logging
+- 🔒 Advanced Security
+- ✅ Compliance Tools
+- 🔐 E2E Encryption
+
+#### Analytics & Monitoring
+- 📈 Team Analytics
+- 📊 Resource Monitoring
+- 💳 License Management
+- 📉 Usage Tracking
+
+#### Administration
+- 👤 User Management
+- 🏢 Department Controls
+- 💾 Enterprise Backup
+- 🔄 System Recovery
+
+#### Advanced Features
+- 🔄 Custom Workflows
+- 🔌 API Integration
+- 🤖 Advanced Automation
+- 🔗 Enterprise Integrations
 
 ## Installation
 
@@ -68,12 +110,25 @@ python main.py
 
 ## Configuration
 
-Astra uses environment variables for configuration. Copy `env_example.txt` to `.env` and configure:
+### Home Edition Setup
+1. Copy `env_example.txt` to `.env`
+2. Set `ASTRA_EDITION=home`
+3. Configure basic API keys:
+   - `DEEPSEEK_API_KEY`: Your DeepSeek API key
+   - `OPENWEATHER_API_KEY`: OpenWeatherMap API key
+   - `NEWS_API_KEY`: NewsAPI key
+   - Other API keys as needed
 
-- `DEEPSEEK_API_KEY`: Your DeepSeek API key
-- `OPENWEATHERMAP_API_KEY`: OpenWeatherMap API key
-- `NEWS_API_KEY`: NewsAPI key
-- Other API keys as needed
+### Enterprise Edition Setup
+1. Copy `env_example.txt` to `.env`
+2. Set `ASTRA_EDITION=enterprise`
+3. Obtain enterprise license file
+4. Configure enterprise settings:
+   - `ASTRA_LICENSE_KEY`: Your enterprise license key
+   - `ASTRA_ENTERPRISE_DB_URL`: Database connection
+   - `ASTRA_ENTERPRISE_REDIS_URL`: Redis connection
+   - `ASTRA_ENTERPRISE_SMTP_*`: Email settings
+   - Additional security settings
 
 ## Usage
 
@@ -102,9 +157,12 @@ astra/
 │   ├── features/
 │   │   ├── calculator.py
 │   │   ├── calendar.py
+│   │   ├── crypto_prices.py
+│   │   ├── currency_converter.py
 │   │   ├── dictionary.py
 │   │   ├── email_manager.py
 │   │   ├── file_manager.py
+│   │   ├── meeting_scheduler.py
 │   │   ├── music.py
 │   │   ├── news.py
 │   │   ├── notes.py
@@ -114,6 +172,7 @@ astra/
 │   │   ├── timer.py
 │   │   ├── translation.py
 │   │   ├── weather.py
+│   │   ├── web_search.py
 │   │   └── wikipedia.py
 │   ├── speech/
 │   │   ├── speech_recognition.py
@@ -149,12 +208,16 @@ pytest tests/
 ## License
 
 This project is licensed under a proprietary license. See LICENSE.md for details.
+- Home Edition: Free for personal use
+- Enterprise Edition: Requires paid license
 
 ## Support
 
 - Documentation: [docs/](docs/)
 - Issues: [GitHub Issues](https://github.com/yourusername/astra/issues)
-- Email: support@astra-ai.com
+- Email: 
+  - Home Edition: support@astra-ai.com
+  - Enterprise Edition: enterprise@astra-ai.com
 
 ## Acknowledgments
 
