@@ -1,232 +1,140 @@
-# Astra AI Assistant
+# Astra AI-Driven Productivity & Project Management Assistant
 
-Astra is a powerful, open-source AI assistant with extensive features and capabilities. It comes in two editions:
+## 🚀 Overview
 
-- **🏠 Home Edition**: Perfect for personal use, with a comprehensive set of features for individual productivity
-- **🏢 Enterprise Edition**: Advanced features for business use, including team collaboration and enterprise security
+Astra is a sophisticated, industrial-ready voice assistant available in two distinct editions:
 
-## Features
+- **🏠 Home Edition**: Free for personal use with 5-user expansion packs ($10 per 5 additional users)
+- **🏢 Enterprise Edition**: Commercial-grade solution for businesses with advanced security and collaboration features
 
-### 🏠 Home Edition Features
+## 📋 Features
 
-#### Core Features
-- 🧠 DeepSeek AI Integration
-- 🗣️ Voice Recognition (Vosk)
-- 🔊 Text-to-Speech (Piper)
-- 🎯 Intent Recognition
-- 🔄 Feature Management
-- 🌐 API Server
+### Home Edition Features
+- Voice recognition and synthesis (offline-first)
+- Personal productivity tools (calculator, timer, reminders, notes)
+- Health and lifestyle tracking
+- Learning assistance and educational tools
+- Basic automation and workflow management
+- File management and system monitoring
+- Weather, translation, and web search capabilities
 
-#### Productivity
-- ⛅ Weather Information (OpenWeatherMap)
-- ⏰ Time & Date Utilities
-- 🧮 Advanced Calculator
-- 📝 Notes Management
-- ⏲️ Timer & Stopwatch
-- 📰 News Aggregation
-- 📚 Dictionary & Thesaurus
-- 🌍 Translation (50+ languages)
-- 📅 Calendar Management
-- 📧 Email Management
-- 📁 File Management
-- 🔍 Web Search (DuckDuckGo)
-- 💻 System Monitoring
-- 🎵 Music Player
+### Enterprise Edition Features
+- All Home Edition features plus:
+- Multi-user authentication and role-based access control
+- Advanced security and compliance tools
+- Team collaboration and project management
+- Enterprise-grade encryption and audit logging
+- Custom integrations and API access
+- Advanced analytics and reporting
 
-#### Finance
-- 💱 Currency Converter
-- 📈 Crypto Price Tracking
-- 📊 Basic Analytics
+## 🛠️ Technical Stack
 
-#### Automation
-- 🤖 Basic Automation Rules
-- 📋 Simple Workflows
-- 📜 Script Management
-- 📸 OCR Integration
+- **Backend**: Python with FastAPI, asyncio
+- **Frontend**: Flutter with Material 3
+- **AI Models**: DeepSeek V3 0324 (OpenRouter), Vosk (offline ASR), Piper (offline TTS)
+- **Database**: SQLCipher-encrypted SQLite
+- **Security**: AES-256 encryption, TLS 1.3, hardware fingerprinting
+- **Deployment**: Inno Setup (Windows), APK/AAB (Android)
 
-### 🏢 Enterprise Edition Features
-All Home Edition features, plus:
+## 🏗️ Architecture
 
-#### Team Features
-- 📊 Project Management
-- 👥 Team Collaboration
-- 🔑 Role Management
-- 📋 Task Assignment
+```
+astra/
+├── core/                 # Core backend services
+├── home_edition/         # Home edition specific code
+├── enterprise_edition/   # Enterprise edition specific code
+├── shared/              # Shared utilities and components
+├── frontend/            # Flutter application
+├── models/              # AI models and weights
+├── docs/                # Documentation
+├── scripts/             # Build and deployment scripts
+└── tests/               # Test suites
+```
 
-#### Security & Compliance
-- 📝 Audit Logging
-- 🔒 Advanced Security
-- ✅ Compliance Tools
-- 🔐 E2E Encryption
+## 🚀 Getting Started
 
-#### Analytics & Monitoring
-- 📈 Team Analytics
-- 📊 Resource Monitoring
-- 💳 License Management
-- 📉 Usage Tracking
+### Prerequisites
+- Python 3.11+
+- Flutter 3.16+
+- Windows 10/11 (for development)
+- Android Studio (for mobile development)
 
-#### Administration
-- 👤 User Management
-- 🏢 Department Controls
-- 💾 Enterprise Backup
-- 🔄 System Recovery
-
-#### Advanced Features
-- 🔄 Custom Workflows
-- 🔌 API Integration
-- 🤖 Advanced Automation
-- 🔗 Enterprise Integrations
-
-## Installation
+### Installation
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/astra.git
+git clone https://github.com/your-org/astra.git
 cd astra
 ```
 
-2. Create a virtual environment:
+2. Set up Python environment:
 ```bash
 python -m venv .venv
-source .venv/bin/activate  # Linux/Mac
-.venv\Scripts\activate     # Windows
-```
-
-3. Install dependencies:
-```bash
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-4. Copy and configure environment variables:
+3. Set up Flutter:
 ```bash
-cp env_example.txt .env
+cd frontend
+flutter pub get
+```
+
+4. Configure environment:
+```bash
+cp .env.example .env
 # Edit .env with your API keys and settings
 ```
 
-5. Run Astra:
+### Development
+
+1. Start the backend server:
 ```bash
-python main.py
+python -m astra.core.server
 ```
 
-## Configuration
-
-### Home Edition Setup
-1. Copy `env_example.txt` to `.env`
-2. Set `ASTRA_EDITION=home`
-3. Configure basic API keys:
-   - `DEEPSEEK_API_KEY`: Your DeepSeek API key
-   - `OPENWEATHER_API_KEY`: OpenWeatherMap API key
-   - `NEWS_API_KEY`: NewsAPI key
-   - Other API keys as needed
-
-### Enterprise Edition Setup
-1. Copy `env_example.txt` to `.env`
-2. Set `ASTRA_EDITION=enterprise`
-3. Obtain enterprise license file
-4. Configure enterprise settings:
-   - `ASTRA_LICENSE_KEY`: Your enterprise license key
-   - `ASTRA_ENTERPRISE_DB_URL`: Database connection
-   - `ASTRA_ENTERPRISE_REDIS_URL`: Redis connection
-   - `ASTRA_ENTERPRISE_SMTP_*`: Email settings
-   - Additional security settings
-
-## Usage
-
-### Voice Commands
-1. Say "Hey Astra" to activate
-2. Speak your command
-3. Astra will process and respond
-
-### Text Commands
-1. Type your command in the input field
-2. Press Enter or click Send
-3. Astra will process and respond
-
-## Development
-
-### Project Structure
-```
-astra/
-├── src/
-│   ├── ai/
-│   │   └── deepseek_client.py
-│   ├── core/
-│   │   ├── feature_manager.py
-│   │   ├── intent_recognizer.py
-│   │   └── voice_assistant.py
-│   ├── features/
-│   │   ├── calculator.py
-│   │   ├── calendar.py
-│   │   ├── crypto_prices.py
-│   │   ├── currency_converter.py
-│   │   ├── dictionary.py
-│   │   ├── email_manager.py
-│   │   ├── file_manager.py
-│   │   ├── meeting_scheduler.py
-│   │   ├── music.py
-│   │   ├── news.py
-│   │   ├── notes.py
-│   │   ├── reminder.py
-│   │   ├── system_monitor.py
-│   │   ├── time.py
-│   │   ├── timer.py
-│   │   ├── translation.py
-│   │   ├── weather.py
-│   │   ├── web_search.py
-│   │   └── wikipedia.py
-│   ├── speech/
-│   │   ├── speech_recognition.py
-│   │   └── text_to_speech.py
-│   └── server/
-│       └── api_server.py
-├── main.py
-└── requirements.txt
-```
-
-### Adding New Features
-1. Create feature module in `src/features/`
-2. Implement feature class with required methods
-3. Register feature in `feature_manager.py`
-4. Add intent patterns in `intent_recognizer.py`
-5. Update documentation
-
-## Testing
-
-Run tests with pytest:
+2. Start the Flutter frontend:
 ```bash
-pytest tests/
+cd frontend
+flutter run
 ```
 
-## Contributing
+## 📦 Deployment
 
-1. Fork the repository
-2. Create feature branch
-3. Commit changes
-4. Push to branch
-5. Create Pull Request
+### Home Edition
+- Windows: Single-click installer via Inno Setup
+- Android: APK/AAB package
+- Self-contained with all dependencies
 
-## License
+### Enterprise Edition
+- Windows: Enterprise installer with license validation
+- Docker containers for server deployment
+- Kubernetes charts for cloud deployment
 
-This project is licensed under a proprietary license. See LICENSE.md for details.
-- Home Edition: Free for personal use
-- Enterprise Edition: Requires paid license
+## 🔒 Security
 
-## Support
+- AES-256 encryption for all data
+- Hardware fingerprinting for license validation
+- Anti-tampering and anti-debugging protection
+- Role-based access control (Enterprise)
+- Audit logging and compliance features
 
-- Documentation: [docs/](docs/)
-- Issues: [GitHub Issues](https://github.com/yourusername/astra/issues)
-- Email: 
-  - Home Edition: support@astra-ai.com
-  - Enterprise Edition: enterprise@astra-ai.com
+## 📄 License
 
-## Acknowledgments
+- **Home Edition**: Free for personal use, expansion packs available
+- **Enterprise Edition**: Commercial license required
+- See [LICENSE.md](LICENSE.md) for details
 
-- DeepSeek AI for the language model
-- Vosk for speech recognition
-- Piper for text-to-speech
-- All other open-source contributors
+## 🤝 Contributing
+
+This is a commercial project. Please contact us for contribution guidelines.
+
+## 📞 Support
+
+- Home Edition: Community forums and documentation
+- Enterprise Edition: 24/7 priority support with dedicated account management
 
 ---
 
 **Astra Technologies**  
-**COPYRIGHT © 2024. ALL RIGHTS RESERVED.** 
+**Copyright © 2024. All Rights Reserved.** 
