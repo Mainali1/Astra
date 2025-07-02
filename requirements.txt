@@ -19,12 +19,11 @@ sqlalchemy==2.0.23
 alembic==1.13.0
 redis==5.0.1
 
-# Security and Encryption
-cryptography==45.0.4
-pycryptodome==3.19.0
+# Security and Encryption (Free Tools Only)
 bcrypt==4.1.2
-python-jose[cryptography]==3.3.0
 passlib[bcrypt]==1.7.4
+hashlib
+hmac
 
 # Audio Processing
 pyaudio==0.2.11
@@ -107,7 +106,7 @@ pystray==0.19.4
 # Hardware Fingerprinting
 py-cpuinfo==9.0.0
 
-# License Management
+# Code Protection (Free Tools Only)
 pyarmor==8.4.0
 pyinstaller==6.2.0
 
