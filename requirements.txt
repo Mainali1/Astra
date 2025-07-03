@@ -227,4 +227,7 @@ kubernetes==28.1.0
 # Testing and Quality
 coverage==7.3.2
 tox==4.11.4
-pre-commit==3.5.0 
+pre-commit==3.5.0
+wikipedia==1.4.0
+pygame==2.5.2
+qrcode==7.4.2

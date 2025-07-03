@@ -62,6 +62,57 @@ class AuditLog(Base):
     timestamp = Column(DateTime, default=datetime.utcnow)
 
 
+class CalendarEvent(Base):
+    """Calendar event model."""
+    __tablename__ = "calendar_events"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, index=True)
+    title = Column(String(100), nullable=False)
+    start_time = Column(DateTime, nullable=False)
+    end_time = Column(DateTime, nullable=False)
+    description = Column(Text)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class TodoTask(Base):
+    """Todo task model."""
+
+    __tablename__ = "todo_tasks"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, index=True)
+    title = Column(String(100), nullable=False)
+    completed = Column(Boolean, default=False)
+    due_date = Column(DateTime)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class Note(Base):
+    """Note model for storing user notes."""
+    __tablename__ = "notes"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, index=True)
+    title = Column(String(255), nullable=False)
+    content = Column(Text)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+
+class Script(Base):
+    """Script model for storing user-defined scripts."""
+    __tablename__ = "scripts"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, index=True)
+    name = Column(String(100), nullable=False, unique=True)
+    content = Column(Text, nullable=False)
+    interpreter = Column(String(50), default="python")
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+
 class DatabaseManager:
     """Manages database operations for Astra."""
     
